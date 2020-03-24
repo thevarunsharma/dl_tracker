@@ -1,10 +1,11 @@
 """"
-caution: some extra setup is need to use this package
-- first add this package in notebook input datasets
+caution: some extra setup is needed before using this package
+- first add this package in notebook input datasets through upload.
 - additional requirments:
   - a webhook for database updation
   - an AMQP cloud server
 """ 
+
 ! pip install pika
 ! mkdir model_tracker
 ! cp ../input/model-tracker/* model_tracker -r
