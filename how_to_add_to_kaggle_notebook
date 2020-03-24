@@ -1,0 +1,5 @@
+! pip install pika
+! mkdir model_tracker
+! cp ../input/model-tracker/* model_tracker -r
+! ls model_tracker/
+
