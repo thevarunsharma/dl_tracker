@@ -20,8 +20,8 @@ class Tracker(keras.callbacks.Callback):
 
     def on_train_begin(self, logs={}):
         self.__update_handler = AsyncPubCon(self.__model_key, self.__password, self)
-        print("[s] sending START TRAINING update to DB:\n",
-              Tracker.serialized(self.params))
+        # print("[s] sending START TRAINING update to DB:\n",
+        #       Tracker.serialized(self.params))
         self.__training_id = self.__dbhandle.start_training(self.params)
         logs = self.params.copy()
         logs['type'] = 'train_begin'
@@ -29,7 +29,7 @@ class Tracker(keras.callbacks.Callback):
         self.__update_handler.send(Tracker.serialized(logs))
 
     def on_train_end(self, logs={}):
-        print("[s] sending END TRAINING update to DB")
+        # print("[s] sending END TRAINING update to DB")
         if self.__training_id is None:
             raise ValueError("Invalid training ID")
         self.__dbhandle.end_training(self.__training_id)
@@ -41,8 +41,8 @@ class Tracker(keras.callbacks.Callback):
         logs['training_id'] = self.__training_id
         logs['type'] = 'epoch_begin'
         self.__curr_epoch = logs['epoch'] = epoch
-        print("[s] sending START EPOCH update to DB:\n",
-              Tracker.serialized(logs))
+        # print("[s] sending START EPOCH update to DB:\n",
+        #       Tracker.serialized(logs))
         self.__update_handler.send(Tracker.serialized(logs))
         self.__dbhandle.epoch_begin(logs)
 
@@ -50,14 +50,10 @@ class Tracker(keras.callbacks.Callback):
         logs['training_id'] = self.__training_id
         logs['type'] = 'epoch_end'
         self.__curr_epoch = logs['epoch'] = epoch
-        print("[s] sending END EPOCH update to DB:\n",
-              Tracker.serialized(logs))
+        # print("[s] sending END EPOCH update to DB:\n",
+        #       Tracker.serialized(logs))
         self.__update_handler.send(Tracker.serialized(logs))
         self.__dbhandle.epoch_end(logs)
-
-    # def on_train_batch_begin(self, batch, logs={}):
-    #     if self.stop_training:
-    #         raise KeyboardInterrupt("[r] Interrupted from remote")
 
     def on_train_batch_end(self, batch, logs={}):
         logs['training_id'] = self.__training_id

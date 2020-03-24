@@ -22,12 +22,12 @@ class AsyncPubCon:
         self.__publish_ch.basic_publish(exchange="",
                                         routing_key="updates",
                                         body=data)
-        print("[s] data:",data)
+        # print("[s] data:",data)
 
 
     def __publisher_init(self):
         params = pika.URLParameters(self.__uri)
-        self.__publish_conn = pika.BlockingConnection(pika.ConnectionParameters("localhost"))
+        self.__publish_conn = pika.BlockingConnection(params)
         self.__publish_ch = self.__publish_conn.channel()
         self.__publish_ch.queue_declare(queue="updates",
                                         arguments={'x-message-ttl' : 5000})
@@ -43,7 +43,7 @@ class AsyncPubCon:
 
     def __setup_consumer_channel(self):
         params = pika.URLParameters(self.__uri)
-        self.__consume_conn = pika.BlockingConnection(pika.ConnectionParameters("localhost"))
+        self.__consume_conn = pika.BlockingConnection(params)
         self.__consume_ch = self.__consume_conn.channel()
 
         # consuming channel
