@@ -6,7 +6,8 @@ class DBAccessHandle:
     def __init__(self, model_key, password):
         self.__username = authenticate_database(model_key, password)
         self.__model_key = model_key
-        self.__url = "http://127.0.0.1:5000/"
+        with open("model_tracker/webhook-url", "r") as fh:
+            self.__url = fh.read().strip() 
 
     @staticmethod
     def serialized(JSON):

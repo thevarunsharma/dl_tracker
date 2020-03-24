@@ -1,7 +1,9 @@
 import requests
 
 def authenticate_database(model_key, password):
-    url = "http://127.0.0.1:5000/"
+    with open("model_tracker/webhook-url", "r") as fh:
+        url = fh.read().strip()
+        
     resp = requests.post(url+"auth_db", json={
         "model_key" : model_key,
         "password" : password
@@ -11,7 +13,9 @@ def authenticate_database(model_key, password):
     return JSON['username']
 
 def authenticate_aqmp(model_key, password):
-    url = "http://127.0.0.1:5000/"
+    with open("model_tracker/webhook-url", "r") as fh:
+        url = fh.read().strip()
+        
     resp = requests.post(url+"auth_amqp", json={
         "model_key" : model_key,
         "password" : password
