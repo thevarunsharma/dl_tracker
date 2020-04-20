@@ -64,7 +64,7 @@ class AsyncPubCon:
         self.__setup_consumer_channel()
         thr = Thread(target=self.__consume)
         thr.start()
-
+        
     def close_connections(self):
         try:
             self.__consume_conn.close()

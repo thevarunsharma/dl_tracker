@@ -51,7 +51,7 @@ class Tracker(keras.callbacks.Callback):
         logs['training_id'] = self.__training_id
         logs['type'] = 'epoch_end'
         self.__curr_epoch = logs['epoch'] = epoch
-        logs['progress'] = self.__curr_batch
+        logs['progress'] = self.__curr_batch + 1
         # print("[s] sending END EPOCH update to DB:\n",
         #       Tracker.serialized(logs))
         self.__update_handler.send(Tracker.serialized(logs))
