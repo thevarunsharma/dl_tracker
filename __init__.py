@@ -12,6 +12,7 @@ class Tracker(keras.callbacks.Callback):
         self.__dbhandle = DBAccessHandle(model_key, password)
         self.__training_id = None
         self.__curr_epoch = 0
+        self.__curr_batch = 0
 
     @staticmethod
     def serialized(dictionary):
@@ -50,6 +51,7 @@ class Tracker(keras.callbacks.Callback):
         logs['training_id'] = self.__training_id
         logs['type'] = 'epoch_end'
         self.__curr_epoch = logs['epoch'] = epoch
+        logs['progress'] = self.__curr_batch
         # print("[s] sending END EPOCH update to DB:\n",
         #       Tracker.serialized(logs))
         self.__update_handler.send(Tracker.serialized(logs))
@@ -60,4 +62,5 @@ class Tracker(keras.callbacks.Callback):
         logs['batch'] = batch
         logs['epoch'] = self.__curr_epoch
         logs['type'] = 'batch'
+        self.__curr_batch = batch
         self.__update_handler.send(Tracker.serialized(logs))
