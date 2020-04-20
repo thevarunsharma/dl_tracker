@@ -20,7 +20,7 @@ class AsyncPubCon:
 
     def _send_on_thread(self, data):
         self.__publish_ch.basic_publish(exchange="",
-                                        routing_key="updates",
+                                        routing_key="updates_"+self.__model_key,
                                         body=data)
         # print("[s] data:",data)
 
@@ -29,7 +29,7 @@ class AsyncPubCon:
         params = pika.URLParameters(self.__uri)
         self.__publish_conn = pika.BlockingConnection(params)
         self.__publish_ch = self.__publish_conn.channel()
-        self.__publish_ch.queue_declare(queue="updates",
+        self.__publish_ch.queue_declare(queue="updates_"+self.__model_key,
                                         arguments={'x-message-ttl' : 5000})
         print("Publisher Connection Established")
 
@@ -47,9 +47,9 @@ class AsyncPubCon:
         self.__consume_ch = self.__consume_conn.channel()
 
         # consuming channel
-        self.__consume_ch.queue_declare(queue="signal",
+        self.__consume_ch.queue_declare(queue="signal_"+self.__model_key,
                               arguments={'x-message-ttl' : 5000})
-        self.__consume_ch.basic_consume(queue="signal",
+        self.__consume_ch.basic_consume(queue="signal_"+self.__model_key,
                               on_message_callback=self.__callback)
 
         print("Consumer Connection Established")
