@@ -7,7 +7,7 @@ caution: some extra setup is needed before using this package
 """ 
 
 ! pip install pika
-! mkdir model_tracker
-! cp ../input/model-tracker/* model_tracker -r
-! ls model_tracker/
+! mkdir dl_tracker
+! cp ../input/dl-tracker/* dl_tracker -r
+! ls dl_tracker/
 

@@ -1,7 +1,7 @@
 from tensorflow import keras
 import json
-from model_tracker.amqp_handler import AsyncPubCon
-from model_tracker.dbaccess import DBAccessHandle
+from dl_tracker.amqp_handler import AsyncPubCon
+from dl_tracker.dbaccess import DBAccessHandle
 
 class Tracker(keras.callbacks.Callback):
 
@@ -42,6 +42,7 @@ class Tracker(keras.callbacks.Callback):
         logs['training_id'] = self.__training_id
         logs['type'] = 'epoch_begin'
         self.__curr_epoch = logs['epoch'] = epoch
+        logs['progress'] = self.__curr_batch + 1
         # print("[s] sending START EPOCH update to DB:\n",
         #       Tracker.serialized(logs))
         self.__update_handler.send(Tracker.serialized(logs))
@@ -62,5 +63,6 @@ class Tracker(keras.callbacks.Callback):
         logs['batch'] = batch
         logs['epoch'] = self.__curr_epoch
         logs['type'] = 'batch'
+        logs['progress'] = self.__curr_batch + 1
         self.__curr_batch = batch
         self.__update_handler.send(Tracker.serialized(logs))

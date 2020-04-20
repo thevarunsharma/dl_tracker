@@ -1,6 +1,6 @@
 import pika
 from threading import Thread
-from model_tracker.auth import authenticate_aqmp
+from dl_tracker.auth import authenticate_aqmp
 
 class AsyncPubCon:
 
