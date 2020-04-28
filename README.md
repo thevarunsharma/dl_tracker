@@ -1,4 +1,4 @@
-# DL-Tracker
+# DL-Tracker Python Callback Package
 A python package for real time tracking of keras model training.
 
 ### Requirements:
