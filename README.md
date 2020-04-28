@@ -6,4 +6,4 @@ A python package for real time tracking of keras model training.
 - pika (RabbitMQ Python client)
 - requests (Request HTTP Python library)
 
-__Note__: Some additional prior setup is needed to be done before using this Package which include setting up a a webhook for database updation and an AMQP cloud server.
+__Note__: Some additional prior setup is needed to be done before using this package which includes setting up a webhook for database updation and an AMQP cloud server.
