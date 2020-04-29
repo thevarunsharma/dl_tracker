@@ -5,6 +5,7 @@ A python package for real time tracking of keras model training.
 - Tensorflow or Keras
 - pika (RabbitMQ Python client)
 - requests (Request HTTP Python library)
+- Active Internet Connection
 
 Meant to be used in combination with an __Android Client__: https://github.com/thevarunsharma/DL-Tracker-App
 
