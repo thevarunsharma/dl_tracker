@@ -14,7 +14,7 @@ _Note_: Some additional prior setup is needed to be done before using this packa
 ### Instructions for use
 - First, make sure that the above requirements are satisfied. 
 - Then, add this package in your current working directory
-```
+```python
 """
 model: 
   A tensorflow or keras model instance created using keras.models.Model or keras.models.Sequential
