@@ -19,7 +19,9 @@ class Tracker(keras.callbacks.Callback):
         return json.dumps({key:str(value) for key, value in dictionary.items()},
                           indent="   ")
 
-    def on_train_begin(self, logs={}):
+    def on_train_begin(self, logs=None):
+        if logs is None:
+            logs = {}
         self.__update_handler = AsyncPubCon(self.__model_key, self.__password, self)
         # print("[s] sending START TRAINING update to DB:\n",
         #       Tracker.serialized(self.params))
@@ -29,7 +31,9 @@ class Tracker(keras.callbacks.Callback):
         logs['training_id'] = self.__training_id
         self.__update_handler.send(Tracker.serialized(logs))
 
-    def on_train_end(self, logs={}):
+    def on_train_end(self, logs=None):
+        if logs is None:
+            logs = {}
         # print("[s] sending END TRAINING update to DB")
         if self.__training_id is None:
             raise ValueError("Invalid training ID")
@@ -38,7 +42,10 @@ class Tracker(keras.callbacks.Callback):
                                                        "type" : "train_end"}))
         self.__update_handler.close_connections()
 
-    def on_epoch_begin(self, epoch, logs={}):
+    def on_epoch_begin(self, epoch, logs=None):
+        if logs is None:
+            logs = {}
+        logs = logs.copy()
         logs['training_id'] = self.__training_id
         logs['type'] = 'epoch_begin'
         self.__curr_epoch = logs['epoch'] = epoch
@@ -48,7 +55,10 @@ class Tracker(keras.callbacks.Callback):
         self.__update_handler.send(Tracker.serialized(logs))
         self.__dbhandle.epoch_begin(logs)
 
-    def on_epoch_end(self, epoch, logs={}):
+    def on_epoch_end(self, epoch, logs=None):
+        if logs is None:
+            logs = {}
+        logs = logs.copy()
         logs['training_id'] = self.__training_id
         logs['type'] = 'epoch_end'
         self.__curr_epoch = logs['epoch'] = epoch
@@ -58,7 +68,10 @@ class Tracker(keras.callbacks.Callback):
         self.__update_handler.send(Tracker.serialized(logs))
         self.__dbhandle.epoch_end(logs)
 
-    def on_train_batch_end(self, batch, logs={}):
+    def on_train_batch_end(self, batch, logs=None):
+        if logs is None:
+            logs = {}
+        logs = logs.copy()
         logs['training_id'] = self.__training_id
         logs['batch'] = batch
         logs['epoch'] = self.__curr_epoch
